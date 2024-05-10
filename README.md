@@ -1,2 +1,29 @@
-# Deep-Learning-Project
+# DEEP LEARNING PROJECT - REPOSITORY TEMPLATE #
 Deep Learning Project - 2023/24 
+
+This repository is a template repository for the homeworks to be developed in the [Deep Learning](https://stem.elearning.unipd.it/course/view.php?id=8201) course.
+
+*Deep Learning* is a course of the
+
+* [Master Degree in Computer Engineering](https://degrees.dei.unipd.it/master-degrees/computer-engineering/) of the  [Department of Information Engineering](https://www.dei.unipd.it/en/), [University of Padua](https://www.unipd.it/en/), Italy.
+* [Master Degree in Data Science](https://datascience.math.unipd.it/) of the  [Department of Mathematics "Tullio Levi-Civita"](https://www.math.unipd.it/en/), [University of Padua](https://www.unipd.it/en/), Italy.
+
+## Group members ##
+| NAME        | SURNAME     | EMAIL                                             |
+|-------------|-------------|---------------------------------------------------|
+| Francesco   | Chemello    | francesco.chemello.1@studenti.unipd.it            |
+| Gabriella   | Farias      | gabriellaingridy.desouzafarias@studenti.unipd.it  |
+| Pietro      | Volpato     | pietro.volpato@studenti.unipd.it                  |
+
+### Organisation of the repository ###
+The repository is organised as follows:
+* code: folder that contains all the code for the homework + files for git.
+* presentation: this folder contains the final presentation of the course.
+    * slides: this folder contains the slides used for presenting the project.
+* developing: contains the files that the group uses for developing the application.
+
+#### License ####
+
+All the contents of this repository are shared using the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+
+![CC logo](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
