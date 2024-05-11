@@ -22,7 +22,18 @@ The repository is organised as follows:
     * slides: this folder contains the slides used for presenting the project.
 * developing: contains the files that the group uses for developing the application.
 
-#### License ####
+#### STRUCTURE ####
+
+1. Retrieve data from .csv files (training, validation and test set).
+2. OneHot coding for alphabetic to numeric (4xN matrix, N = sting size).
+3. Reshape the PyTorch tensor to fit the data.
+4. Implementation of RNN (GRU NN because it is simpler and has better performance).
+5. Training with RNN epochs or K-fold for a better use of data (in this case we can implement it with Colab).
+6. Run on the test set.
+7. Performance evaluation: metrics used by ViraMiner.
+8. Discussion of results + ppt presentation of work or pdf (as directed by the professor).
+
+##### License #####
 
 All the contents of this repository are shared using the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 

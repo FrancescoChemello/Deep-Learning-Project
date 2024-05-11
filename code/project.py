@@ -25,8 +25,6 @@ def DNA_to_onehot(dna_line):
 
 #!- MAIN
 
-#"C:\Users\cesco\Documents\Scuola\Università\Materie Università\Anno 4\Deep Learning\Homework\Deep-Learning-Project\code\data\fullset_train.csv"
-
 # Read the input from the cvc file
 absolute_path = os.path.dirname(__file__)
 rel_path_train = 'data\\fullset_train.csv'
@@ -48,6 +46,8 @@ for v in range (0, 10):
     print("Train data:"+ train_data.seqs[v])
     print(train_onehot[v])
 
+
+# 
 
 
 
