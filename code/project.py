@@ -4,8 +4,8 @@ import torch.nn as nn
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-
-from tqdm import tqdm  # For a nice progress bar
+# For the progress bar
+from tqdm import tqdm
 
 #!- FUNCTIONS
 def onehot_encoder (dataset):
@@ -25,12 +25,13 @@ def onehot_encoder (dataset):
         onehot_sequence = []
         # Iterate over the sequence
         for base in sequence:
-            # Append the onehot encoding of the base
+            # Append the onehot base
             onehot_sequence.append(onehot_dict[base])
         # Append the onehot sequence
         onehot_dataset = np.append(onehot_dataset, [onehot_sequence])
         pbar.update(1)
     pbar.close()
+    print("Onehot encoding done")
     return onehot_dataset
 
 
@@ -61,18 +62,15 @@ train_data = train_csv.values
 m = train_data.shape[0]
 print("Amount of data:",m)
 X_train = train_data[:m,1]
-Y_train = train_data[:m,2]
+Y_train = train_data[:m,2].astype(np.int32)
 
 # OneHot encoding for the training data
 print("Start onehot encoding for the training data")
 X_train = onehot_encoder(X_train)
 
-print(type(X_train))
-print(type(X_train[0]))
-
 # Convert the data to a tensor
 X_train = th.from_numpy(np.array(X_train))
-Y_train = th.from_numpy(np.array(Y_train))
+Y_train = th.tensor(Y_train)
 
 print("X_train shape: ", X_train.shape)
 print("Y_train shape: ", Y_train.shape)
