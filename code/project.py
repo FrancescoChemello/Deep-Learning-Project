@@ -8,21 +8,30 @@ import tensorflow as tf
 from tqdm import tqdm  # For a nice progress bar
 
 #!- FUNCTIONS
-
-def DNA_to_onehot_dataset(dataset):
-  options_onehot = {'A': [1,0,0,0,0],'C' :[0,1,0,0,0], 'G':[0,0,1,0,0] ,'T':[0,0,0,1,0],'N':[0,0,0,0,1]}
-  onehot_data = []
-  for row in dataset:
-    onehot_data.append(map(lambda e: options_onehot[e], row))
-  onehot_data = np.array(onehot_data)
-  return onehot_data 
-
-# processes a DNA string to onehot
-def DNA_to_onehot(dna_line):
-  options_onehot = {'A': [1,0,0,0,0],'C' :[0,1,0,0,0], 'G':[0,0,1,0,0] ,'T':[0,0,0,1,0],'N':[0,0,0,0,1]}
-  onehot_data = map(lambda e: options_onehot[e], dna_line)
-  onehot_data = np.array(onehot_data)
-  return onehot_data
+def onehot_encoder (dataset):
+    """
+    Function that encodes a DNA dataset into a onehot encoding dataset.
+    The dataset is a list of strings, each string is a DNA sequence.
+    The function returns a list of lists, each list is a onehot encoding of a DNA sequence.
+    """
+    # Define the dictionary for the onehot encoding
+    onehot_dict = {'A':[1,0,0,0],'C':[0,1,0,0],'G':[0,0,1,0],'T':[0,0,0,1]}
+    # Initialize the onehot dataset
+    onehot_dataset = np.array([])
+    # Iterate over the dataset
+    pbar = tqdm(total=len(dataset))
+    for sequence in dataset:
+        # Initialize the onehot sequence
+        onehot_sequence = []
+        # Iterate over the sequence
+        for base in sequence:
+            # Append the onehot encoding of the base
+            onehot_sequence.append(onehot_dict[base])
+        # Append the onehot sequence
+        onehot_dataset = np.append(onehot_dataset, [onehot_sequence])
+        pbar.update(1)
+    pbar.close()
+    return onehot_dataset
 
 
 #!- MAIN
@@ -55,28 +64,26 @@ X_train = train_data[:m,1]
 Y_train = train_data[:m,2]
 
 # OneHot encoding for the training data
-X_train = DNA_to_onehot_dataset(X_train)
+print("Start onehot encoding for the training data")
+X_train = onehot_encoder(X_train)
 
 print(type(X_train))
 print(type(X_train[0]))
 
-# The onehot encoding produce a map but we cannot use it as a tensor. We need to change the function in order
-# to return a list of lists and not a map of lists. 
-exit() # Debug -END OF ONEHOT ENCODING-
-
-
-
+# Convert the data to a tensor
 X_train = th.from_numpy(np.array(X_train))
 Y_train = th.from_numpy(np.array(Y_train))
 
 print("X_train shape: ", X_train.shape)
 print("Y_train shape: ", Y_train.shape)
 
-print("X_train values: ", X_train)
-print("Y_train values: ", Y_train)
+# print("X_train values: ", X_train)
+# print("Y_train values: ", Y_train)
 
 # Free memory
 del train_csv, train_data, m
+
+exit() # Debug -END OF ONEHOT ENCODING-
 
 # Validation Set
 
