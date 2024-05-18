@@ -1,4 +1,8 @@
 import os
+import threading
+import time
+import sys
+
 import torch as th
 import torch.nn as nn
 import numpy as np
@@ -7,7 +11,25 @@ import tensorflow as tf
 # For the progress bar
 from tqdm import tqdm
 
+# Global variable to stop the progress bar (. -> .. -> ... -> .)
+global stop_progress
+stop_progress = False
+
 #!- FUNCTIONS
+def show_progress():
+    global stop_progress
+    i = 0
+    while not stop_progress:
+        if i < 3:
+            print(".", end="")
+            sys.stdout.flush()
+            i += 1
+        else:
+            print("\r   \r", end="")  # Clear the dots
+            sys.stdout.flush()
+            i = 0  # Reset the counter
+        time.sleep(0.2)  # Wait
+
 def onehot_encoder (dataset):
     """
     Function that encodes a DNA dataset into a onehot encoding dataset.
@@ -15,25 +37,33 @@ def onehot_encoder (dataset):
     The function returns a list of lists, each list is a onehot encoding of a DNA sequence.
     """
     # Define the dictionary for the onehot encoding
-    onehot_dict = {'A':[1,0,0,0],'C':[0,1,0,0],'G':[0,0,1,0],'T':[0,0,0,1]}
+    onehot_dict = {'A':[1,0,0,0], 'C':[0,1,0,0], 'G':[0,0,1,0], 'T':[0,0,0,1]}
     # Initialize the onehot dataset
-    onehot_dataset = np.array([])
+    onehot_dataset = []
     # Iterate over the dataset
     pbar = tqdm(total=len(dataset))
     for sequence in dataset:
         # Initialize the onehot sequence
-        onehot_sequence = []
+        onehot_sequence = np.array([])
         # Iterate over the sequence
         for base in sequence:
             # Append the onehot base
-            onehot_sequence.append(onehot_dict[base])
+            onehot_sequence = np.append(onehot_sequence, onehot_dict[base])
         # Append the onehot sequence
-        onehot_dataset = np.append(onehot_dataset, [onehot_sequence])
+        onehot_dataset.append(onehot_sequence)
         pbar.update(1)
+    # Convert the onehot dataset to a numpy array to have an arry of arrays
     pbar.close()
-    print("Onehot encoding done")
+    print("Converting to numpy array", end="")
+    sys.stdout.flush()
+    global stop_progress
+    t = threading.Thread(target=show_progress)
+    t.start()
+    onehot_dataset = np.asarray(onehot_dataset)
+    stop_progress = True
+    t.join()
+    print("\nOnehot encoding done")
     return onehot_dataset
-
 
 #!- MAIN
 
@@ -64,13 +94,11 @@ print("Amount of data:",m)
 X_train = train_data[:m,1]
 Y_train = train_data[:m,2].astype(np.int32)
 
-# Resize X_train and Y_train to 10000 elements (for testin purposes)
-X_train = X_train[:10000]
-Y_train = Y_train[:10000]
-
 # OneHot encoding for the training data
 print("Start onehot encoding for the training data")
 X_train = onehot_encoder(X_train)
+
+print("X_train shape before tensor: ", X_train.shape)
 
 # Convert the data to a tensor
 X_train = th.from_numpy(np.array(X_train))
@@ -82,7 +110,7 @@ print("Y_train shape: ", Y_train.shape)
 # Free memory
 del train_csv, train_data, m
 
-# exit() # Debug -END OF ONEHOT ENCODING-
+exit() # Debug -END OF ONEHOT ENCODING-
 
 # Validation Set
 
@@ -99,10 +127,6 @@ m = val_data.shape[0]
 print("Amount of data:",m)
 X_val = val_data[:m,1]
 Y_val = val_data[:m,2]
-
-# Resize X_train and Y_train to 10000 elements (for testin purposes)
-X_train = X_train[:10000]
-Y_train = Y_train[:10000]
 
 # OneHot encoding for the validation data
 X_val = onehot_encoder(X_val)
@@ -132,10 +156,6 @@ print("Amount of data:",m)
 X_test = test_data[:m,1]
 Y_test = test_data[:m,2]
 
-# Resize X_train and Y_train to 10000 elements (for testin purposes)
-X_train = X_train[:10000]
-Y_train = Y_train[:10000]
-
 # OneHot encoding for the test data
 X_test = onehot_encoder(X_test)
 
@@ -148,7 +168,7 @@ print("Y_test shape", Y_test.shape)
 # Free memory
 del test_csv, test_data, m
 
-# exit() # Debug -END OF READING DATA-S
+exit() # Debug -END OF READING DATA-S
 
 print("Start training the model")
 
