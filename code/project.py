@@ -21,13 +21,14 @@ def show_progress():
     i = 0
     while not stop_progress:
         if i < 3:
-            print(".", end="")
+            sys.stdout.write('\r')
+            sys.stdout.write("Operation in progress" + ("." * (i+1)))
             sys.stdout.flush()
             i += 1
         else:
-            print("\r   \r", end="")  # Clear the dots
+            sys.stdout.write('\r')
             sys.stdout.flush()
-            i = 0  # Reset the counter
+            i = 0
         time.sleep(0.2)  # Wait
 
 def onehot_encoder (dataset):
@@ -38,6 +39,8 @@ def onehot_encoder (dataset):
     """
     # Define the dictionary for the onehot encoding
     onehot_dict = {'A':[1,0,0,0], 'C':[0,1,0,0], 'G':[0,0,1,0], 'T':[0,0,0,1]}
+    # Define the chunk size for the export of the data to a numpy array
+    chunk_size = 10000
     # Initialize the onehot dataset
     onehot_dataset = []
     # Iterate over the dataset
@@ -54,15 +57,29 @@ def onehot_encoder (dataset):
         pbar.update(1)
     # Convert the onehot dataset to a numpy array to have an arry of arrays
     pbar.close()
-    print("Converting to numpy array", end="")
+    print("Starting convertion to numpy array")
     sys.stdout.flush()
     global stop_progress
+    def concatenate_chunks(chunks):
+        return np.concatenate(chunks)
+
     t = threading.Thread(target=show_progress)
     t.start()
-    onehot_dataset = np.asarray(onehot_dataset)
+    # Convert the onehot dataset to a numpy array in chunks to avoid memory issues
+    onehot_dataset_numpy = np.empty([0, 1200])
+    for i in range(0, len(onehot_dataset), chunk_size):
+        if i+chunk_size < len(onehot_dataset):
+            chunk = concatenate_chunks((onehot_dataset_numpy, np.asarray(onehot_dataset[i:i+chunk_size])))
+        else:
+           chunk = concatenate_chunks((onehot_dataset_numpy, np.asarray(onehot_dataset[i:])))
+        onehot_dataset_numpy = np.concatenate((onehot_dataset_numpy, chunk), axis=0)
+    # onehot_dataset = np.asarray(onehot_dataset)
     stop_progress = True
     t.join()
-    print("\nOnehot encoding done")
+    print("\r   \r", end="")
+    print("\nType of onehot_dataset_numpy: ", type(onehot_dataset_numpy))
+    print("Shape of onehot_dataset_numpy: ", onehot_dataset_numpy.shape)
+    print("Onehot encoding done")
     return onehot_dataset
 
 #!- MAIN
@@ -94,14 +111,17 @@ print("Amount of data:",m)
 X_train = train_data[:m,1]
 Y_train = train_data[:m,2].astype(np.int32)
 
+# Reduce the size of the dataset for testing
+m = 100000 
+X_train = X_train[:m]
+Y_train = Y_train[:m]
+
 # OneHot encoding for the training data
 print("Start onehot encoding for the training data")
 X_train = onehot_encoder(X_train)
 
-print("X_train shape before tensor: ", X_train.shape)
-
 # Convert the data to a tensor
-X_train = th.from_numpy(np.array(X_train))
+X_train = th.tensor(X_train)
 Y_train = th.tensor(Y_train)
 
 print("X_train shape: ", X_train.shape)
