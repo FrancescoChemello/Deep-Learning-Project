@@ -185,43 +185,42 @@ del test_csv, test_data, m
 
 print("Start training the model")
 
-model = ConvNet().to(device)
+model_CNN = ConvNet().to(device)
 
 # Loss and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = th.optim.Adam(model.parameters(), lr=0.001)
+optimizer = th.optim.Adam(model_CNN.parameters(), lr=0.001)
 
 # Training the model
 num_epochs = 7
+
+##Store the loss values
+train_loss_CNN, val_loss_CNN = [], []
 for epoch in range(num_epochs):
-    model.train()
+    model_CNN.train()
     X_train = X_train.float()
     Y_train = Y_train.long()
-    outputs = model(X_train.to(device))
+    outputs = model_CNN(X_train.to(device))
     loss = criterion(outputs, Y_train.to(device))
+    train_loss_CNN.append(loss.item())
 
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
 
-    print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item()}')
+    print("End training the model")
 
-print("End training the model")
+    print("Start validation the model")
 
-print("Start validation the model")
+    # Validation the model
+    model_CNN.eval()
+    with th.no_grad():
+        X_val = X_val.float()
+        Y_val = Y_val.long()
+        val_outputs = model_CNN(X_val.to(device))
+        val_loss = criterion(val_outputs, Y_val.to(device))
+        val_loss_CNN.append(val_loss.item())
 
-# Testing the model
-model.eval()
-with th.no_grad():
-    correct = 0
-    total = 0
-    X_test = X_test.float()
-    Y_test = Y_test.long()
-    outputs = model(X_test.to(device))
-    _, predicted = th.max(outputs.data, 1)
-    total += Y_test.size(0)
-    correct += (predicted == Y_test.to(device)).sum().item()
+    print(f'Epoch [{epoch+1}/{num_epochs}], Train Loss: {loss.item():.4f}, Val Loss: {val_loss.item():.4f}')
 
-    print(f'Accuracy: {100 * correct / total}%')
-
-print("End validation the model")
+    print("End validation the model")
