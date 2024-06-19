@@ -12,17 +12,16 @@ This repository is a template repository for the homeworks to be developed in th
 | NAME        | SURNAME     | EMAIL                                             |
 |-------------|-------------|---------------------------------------------------|
 | Francesco   | Chemello    | francesco.chemello.1@studenti.unipd.it            |
-| Gabriella   | Farias      | gabriellaingridy.desouzafarias@studenti.unipd.it  |
 | Pietro      | Volpato     | pietro.volpato@studenti.unipd.it                  |
 
-### Organisation of the repository ###
+## Organisation of the repository ##
 The repository is organised as follows:
 * code: folder that contains all the code for the homework + files for git.
 * presentation: this folder contains the final presentation of the course.
     * slides: this folder contains the slides used for presenting the project.
 * developing: contains the files that the group uses for developing the application.
 
-#### STRUCTURE ####
+## STRUCTURE ##
 
 1. Retrieve data from .csv files (training, validation and test set).
 2. OneHot coding for alphabetic to numeric (4xN matrix, N = sting size).
@@ -33,11 +32,7 @@ The repository is organised as follows:
 7. Performance evaluation: metrics used by ViraMiner.
 8. Discussion of results + ppt presentation of work or pdf (as directed by the professor).
 
-##### Google Colab #####
-
-Link to Google Colab file: https://colab.research.google.com/github/FrancescoChemello/Deep-Learning-Project/blob/main/code/project-colab.ipynb?authuser=1#scrollTo=Jbw00zSUP9u5&uniqifier=1
-
-###### License ######
+### License ###
 
 All the contents of this repository are shared using the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 
