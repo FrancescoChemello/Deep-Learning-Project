@@ -6,7 +6,6 @@ This repository is a template repository for the homeworks to be developed in th
 *Deep Learning* is a course of the
 
 * [Master Degree in Computer Engineering](https://degrees.dei.unipd.it/master-degrees/computer-engineering/) of the  [Department of Information Engineering](https://www.dei.unipd.it/en/), [University of Padua](https://www.unipd.it/en/), Italy.
-* [Master Degree in Data Science](https://datascience.math.unipd.it/) of the  [Department of Mathematics "Tullio Levi-Civita"](https://www.math.unipd.it/en/), [University of Padua](https://www.unipd.it/en/), Italy.
 
 ## Group members ##
 | NAME        | SURNAME     | EMAIL                                             |
@@ -24,13 +23,15 @@ The repository is organised as follows:
 ## STRUCTURE ##
 
 1. Retrieve data from .csv files (training, validation and test set).
-2. OneHot coding for alphabetic to numeric (4xN matrix, N = sting size).
+2. OneHot coding from alphabetic to numeric (4xN matrix, N = sting size).
 3. Reshape the PyTorch tensor to fit the data.
-4. Implementation of RNN (GRU NN because it is simpler and has better performance).
-5. Training with RNN epochs or K-fold for a better use of data (in this case we can implement it with Colab).
+4. Implementation of CNN
+5. Implementation of LSTM
+6. Training the Nets implementing the early stop
 6. Run on the test set.
-7. Performance evaluation: metrics used by ViraMiner.
-8. Discussion of results + ppt presentation of work or pdf (as directed by the professor).
+7. Implementation of the ensemble learning for choosing the best label.
+8. Performance evaluation: metrics used by ViraMiner.
+9. Discussion of results + ppt presentation of work or pdf (as directed by the professor).
 
 ### License ###
 
