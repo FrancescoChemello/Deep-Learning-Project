@@ -3,9 +3,7 @@ Deep Learning Project - 2023/24
 
 This repository is a template repository for the homeworks to be developed in the [Deep Learning](https://stem.elearning.unipd.it/course/view.php?id=8201) course.
 
-*Deep Learning* is a course of the
-
-* [Master Degree in Computer Engineering](https://degrees.dei.unipd.it/master-degrees/computer-engineering/) of the  [Department of Information Engineering](https://www.dei.unipd.it/en/), [University of Padua](https://www.unipd.it/en/), Italy.
+*Deep Learning* is a course of the [Master Degree in Computer Engineering](https://degrees.dei.unipd.it/master-degrees/computer-engineering/) of the  [Department of Information Engineering](https://www.dei.unipd.it/en/), [University of Padua](https://www.unipd.it/en/), Italy.
 
 ## Group members ##
 | NAME        | SURNAME     | EMAIL                                             |
